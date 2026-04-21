@@ -1,45 +1,51 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', function () {
     return response()->json(['status' => 'ok']);
 });
 
+$notImplemented = function (string $feature) {
+    return response()->json([
+        'message' => 'Endpoint scaffolded but not implemented yet.',
+        'feature' => $feature,
+    ], 501);
+};
+
 Route::prefix('api')->group(function () {
     // Authentication routes
-    Route::post('/auth/register', 'Api\AuthController@register');
-    Route::post('/auth/login', 'Api\AuthController@login');
+    Route::post('/auth/register', fn () => $notImplemented('auth.register'));
+    Route::post('/auth/login', fn () => $notImplemented('auth.login'));
     
     // Protected routes
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/auth/logout', 'Api\AuthController@logout');
+        Route::post('/auth/logout', fn () => $notImplemented('auth.logout'));
         
         // Products
-        Route::get('/products', 'Api\ProductController@index');
-        Route::post('/products', 'Api\ProductController@store');
-        Route::put('/products/{id}', 'Api\ProductController@update');
-        Route::delete('/products/{id}', 'Api\ProductController@destroy');
+        Route::get('/products', fn () => $notImplemented('products.index'));
+        Route::post('/products', fn () => $notImplemented('products.store'));
+        Route::put('/products/{id}', fn () => $notImplemented('products.update'));
+        Route::delete('/products/{id}', fn () => $notImplemented('products.destroy'));
         
         // Categories
-        Route::get('/categories', 'Api\CategoryController@index');
+        Route::get('/categories', fn () => $notImplemented('categories.index'));
         
         // Orders
-        Route::get('/orders', 'Api\OrderController@index');
-        Route::get('/orders/{id}', 'Api\OrderController@show');
-        Route::put('/orders/{id}/status', 'Api\OrderController@updateStatus');
-        Route::post('/orders/{id}/reject', 'Api\OrderController@reject');
+        Route::get('/orders', fn () => $notImplemented('orders.index'));
+        Route::get('/orders/{id}', fn () => $notImplemented('orders.show'));
+        Route::put('/orders/{id}/status', fn () => $notImplemented('orders.updateStatus'));
+        Route::post('/orders/{id}/reject', fn () => $notImplemented('orders.reject'));
         
         // Analytics
-        Route::get('/analytics/sales', 'Api\AnalyticsController@sales');
-        Route::get('/analytics/top-products', 'Api\AnalyticsController@topProducts');
-        Route::get('/analytics/revenue', 'Api\AnalyticsController@revenue');
+        Route::get('/analytics/sales', fn () => $notImplemented('analytics.sales'));
+        Route::get('/analytics/top-products', fn () => $notImplemented('analytics.topProducts'));
+        Route::get('/analytics/revenue', fn () => $notImplemented('analytics.revenue'));
         
         // Account
-        Route::get('/account/profile', 'Api\AccountController@profile');
-        Route::put('/account/profile', 'Api\AccountController@updateProfile');
-        Route::get('/account/bank-details', 'Api\AccountController@bankDetails');
-        Route::put('/account/bank-details', 'Api\AccountController@updateBankDetails');
+        Route::get('/account/profile', fn () => $notImplemented('account.profile'));
+        Route::put('/account/profile', fn () => $notImplemented('account.updateProfile'));
+        Route::get('/account/bank-details', fn () => $notImplemented('account.bankDetails'));
+        Route::put('/account/bank-details', fn () => $notImplemented('account.updateBankDetails'));
     });
 });
